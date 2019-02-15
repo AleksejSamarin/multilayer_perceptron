@@ -1,13 +1,21 @@
 from scripts.NeuralNetwork import *
 
 if __name__ == '__main__':
-    inputs = np.array([[0, 0, 1], # 4 training sets (3 signals)
+    inputs = np.array([[0, 0, 1],
                        [0, 1, 1],
                        [1, 0, 1],
                        [1, 1, 1]])
 
-    outputs = np.array([[0, 1, 1, 0]]).T # 4 training sets (1 signal)
+    outputs = np.array([[0, 1, 1, 0],
+                        [0, 0, 1, 1],
+                        [1, 1, 1, 1],
+                        [1, 0, 1, 1]])
 
-    network = NeuralNetwork(5000, 0.1, [3, 5, 6, 1]) # set configuration
+    tests = np.array([0, 1, 0])
+
+    network = NeuralNetwork(1000, 0.1, [3, 5, 11, 4]) # set configuration
     network.train(inputs, outputs)
+    network.print_layer()
+
+    network.check(tests)
     network.print_layer()

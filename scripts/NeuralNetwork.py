@@ -24,7 +24,7 @@ class NeuralNetwork:
                 self.deltas[i - 1] = self.errors[i - 1] * self.count_function(self.layers[i], True)
 
             for i in range(self.levels - 2, -1, -1):
-                self.synapses[i] += self.layers[i].T.dot(self.deltas[i])
+                 self.synapses[i] += self.layers[i].T.dot(self.deltas[i])
 
             self.print_error(j)
 
@@ -39,6 +39,12 @@ class NeuralNetwork:
             self.layers.append([])
             self.errors.append([])
             self.deltas.append([])
+
+
+    def check(self, inputs):
+        self.layers[0] = inputs
+        for i in range(1, self.levels):
+            self.layers[i] = self.count_function(np.dot(self.layers[i - 1], self.synapses[i - 1]))
 
 
     def count_function(self, x, derivative=False):
