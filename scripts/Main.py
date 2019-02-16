@@ -13,7 +13,7 @@ if __name__ == '__main__':
 
     tests = np.array([0, 1, 0])
 
-    network = NeuralNetwork(1000, 0.1, [3, 5, 11, 4]) # set configuration
+    network = NeuralNetwork(5000, 0.1, [3, 6, 13, 4]) # set configuration
     network.train(inputs, outputs)
     network.print_layer()
 

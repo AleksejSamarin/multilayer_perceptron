@@ -24,7 +24,7 @@ class NeuralNetwork:
                 self.deltas[i - 1] = self.errors[i - 1] * self.count_function(self.layers[i], True)
 
             for i in range(self.levels - 2, -1, -1):
-                 self.synapses[i] += self.layers[i].T.dot(self.deltas[i])
+                self.synapses[i] += self.layers[i].T.dot(self.deltas[i]) * self.rate
 
             self.print_error(j)
 
@@ -55,7 +55,7 @@ class NeuralNetwork:
 
     def print_error(self, epoch):
         if (epoch % (self.epochs / 5)) == 0:
-            print("Error: " + str(np.mean(np.abs(self.errors[1]))))  # mean absolute error value
+            print("Error: ", np.mean(self.errors[self.levels - 2]**2))  # mean square error
 
 
     def print_layer(self):
