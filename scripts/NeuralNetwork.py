@@ -45,6 +45,8 @@ class NeuralNetwork:
         self.layers[0] = inputs
         for i in range(1, self.levels):
             self.layers[i] = self.count_function(np.dot(self.layers[i - 1], self.synapses[i - 1]))
+        #print("Error test: ", np.mean(self.errors[self.levels - 2] ** 2))
+        #print(self.layers[self.levels - 1] >= 0.5)
 
 
     def count_function(self, x, derivative=False):
