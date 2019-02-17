@@ -27,13 +27,13 @@ class NeuralNetwork:
                 self.synapses[i] += self.layers[i].T.dot(self.deltas[i]) * self.rate
 
             self.print_error(j)
+        self.print_layer()
 
 
     def prepare(self, inputs):
         np.random.seed(1)  # same random distribution
         for i in range(1, self.levels):  # synaptic link weights initialization
             self.synapses.append(np.random.random((self.structure[i - 1], self.structure[i])))
-
         self.layers.append(inputs)  # layer initialization
         for i in range(self.levels - 1):
             self.layers.append([])
@@ -45,6 +45,7 @@ class NeuralNetwork:
         self.layers[0] = inputs
         for i in range(1, self.levels):
             self.layers[i] = self.count_function(np.dot(self.layers[i - 1], self.synapses[i - 1]))
+        self.print_layer()
         #print("Error test: ", np.mean(self.errors[self.levels - 2] ** 2))
         #print(self.layers[self.levels - 1] >= 0.5)
 
