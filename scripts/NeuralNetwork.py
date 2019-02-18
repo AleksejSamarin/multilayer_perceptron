@@ -15,15 +15,15 @@ class NeuralNetwork:
             for i in range(1, self.levels):
                 self.layers[i] = self.count_function(np.dot(self.layers[i - 1], self.synapses[i - 1]), 0.1 * i**3)  # counting neuron weights
 
-            self.errors[self.levels - 2] = outputs - self.layers[self.levels - 1]  # first error count
-            self.deltas[self.levels - 2] = self.errors[self.levels - 2] * self.count_function(self.layers[self.levels - 1], None, True) # check direction of the target value
+            self.errors[-1] = outputs - self.layers[-1]  # first error count
+            self.deltas[-1] = self.errors[-1] * self.count_function(self.layers[-1], None, True)  # check direction of the target value
 
             for i in range(self.levels - 2, 0, -1):
                 self.errors[i - 1] = self.deltas[i].dot(self.synapses[i].T)
                 self.deltas[i - 1] = self.errors[i - 1] * self.count_function(self.layers[i], None, True)
 
-            for i in range(self.levels - 2, -1, -1):
-                self.synapses[i] += self.layers[i].T.dot(self.deltas[i]) * self.rate
+            for i in range(self.levels - 1, 0, -1):
+                self.synapses[i - 1] += self.layers[i - 1].T.dot(self.deltas[i - 1]) * self.rate
 
             self.print_error(j)
         self.print_layer()
