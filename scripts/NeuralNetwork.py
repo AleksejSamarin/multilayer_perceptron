@@ -31,9 +31,10 @@ class NeuralNetwork:
 
 
     def prepare(self, inputs):
-        np.random.seed(1)  # same random distribution
+        self.layers, self.synapses, self.errors, self.deltas = [], [], [], []
+        np.random.seed(1)
         for i in range(1, self.levels):  # synaptic link weights initialization
-            self.synapses.append(np.random.random((self.structure[i - 1], self.structure[i])))
+            self.synapses.append(2 * np.random.random((self.structure[i - 1], self.structure[i])) - 1)
         self.layers.append(inputs)  # layer initialization
         for i in range(self.levels - 1):
             self.layers.append([])
