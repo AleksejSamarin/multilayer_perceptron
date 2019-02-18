@@ -8,7 +8,7 @@ class FileWorker:
 
     def load_arrays(self, default=False):
         if not default:
-            for attempt in range(5):
+            for attempt in range(2):
                 try:
                     data = np.load(self.path)
                 except:
