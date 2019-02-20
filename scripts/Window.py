@@ -30,6 +30,7 @@ class Window():
         self.plot = Plot(self.root, self.f_bot)
 
         self.root.protocol("WM_DELETE_WINDOW", self.exit)
+        self.root.after(1000, lambda: self.root.focus_force())
         self.root.mainloop()
         return
 

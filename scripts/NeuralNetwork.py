@@ -45,7 +45,7 @@ class NeuralNetwork:
                 self.check(self.noise_inputs) #self.change_inputs(inputs)
                 error = self.outputs_for_test - self.layers[-1]
                 self.mean_square_test_error.append(np.mean(error ** 2))
-        self.print_layer()
+        # self.print_layer()
 
 
     def prepare(self, inputs):
