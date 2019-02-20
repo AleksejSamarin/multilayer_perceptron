@@ -12,7 +12,7 @@ class NeuralNetwork:
 
     def change_inputs(self, to_change):
         result = np.concatenate((to_change, to_change))
-        return self.noise(result, 0.1)
+        return self.noise(result, 0.2)
 
 
     def noise(self, value, probability):
