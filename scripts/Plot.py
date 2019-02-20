@@ -24,8 +24,8 @@ class Plot:
 
     def draw(self, data, extended=None):
         self.plot.lines = []
-        self.plot.plot(data, 'b')
         if extended != None:
             self.plot.plot(extended, 'r')
-        self.plot.legend(["Train", "Test"], loc=1)
+            self.plot.plot(data, 'b')
+        self.plot.legend(["Test", "Train"], loc=1)
         self.chart_type.draw()

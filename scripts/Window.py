@@ -17,7 +17,7 @@ class Window():
         data = worker.load_arrays()
 
         self.root.bind("<Return>", lambda l: self.run(network, data))
-        self.root.bind("<c>", lambda l: network.check(data['test']))
+        self.root.bind("<c>", lambda l: network.get_response(data['test']))
         self.root.bind("<l>", lambda l: self.load_canvases(worker))
         self.root.bind("<Control-s>", lambda l: worker.save_arrays(self.get_codes()[0], data['outputs'], self.get_codes()[1]))
         self.root.bind("<Escape>", self.exit)
@@ -41,8 +41,8 @@ class Window():
 
 
     def run(self, network, data):
-        network.train(data['inputs'], data['outputs'])
-        self.plot.draw(network.mean_square_train_error)
+        network.train(data['inputs'], data['outputs'], True)
+        self.plot.draw(network.mean_square_train_error, network.mean_square_test_error)
 
 
     def get_codes(self, event=None):
