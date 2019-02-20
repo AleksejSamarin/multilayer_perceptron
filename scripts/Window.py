@@ -1,6 +1,5 @@
 from scripts.Canvas import *
-import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
+from scripts.Plot import *
 import sys
 
 class Window():
@@ -17,7 +16,7 @@ class Window():
 
         data = worker.load_arrays()
 
-        self.root.bind("<Return>", lambda l: network.train(data['inputs'], data['outputs']))
+        self.root.bind("<Return>", lambda l: self.run(network, data))
         self.root.bind("<c>", lambda l: network.check(data['test']))
         self.root.bind("<l>", lambda l: self.load_canvases(worker))
         self.root.bind("<Control-s>", lambda l: worker.save_arrays(self.get_codes()[0], data['outputs'], self.get_codes()[1]))
@@ -27,8 +26,7 @@ class Window():
             canvas = Canvas(self.f_top, width=125, height=170, background='blue')
             canvas.pack(side="left")
             self.canvases.append(canvas)
-
-        self.build_plot()
+        self.plot = Plot(self.root, self.f_bot)
 
         self.root.protocol("WM_DELETE_WINDOW", self.exit)
         self.root.mainloop()
@@ -42,25 +40,9 @@ class Window():
         self.canvases[-1].color_from_code(data['test'])
 
 
-    def build_plot(self):
-        figure = plt.Figure(figsize=(6.4, 5), dpi=100)
-        plot = figure.add_subplot(111)
-        X = np.linspace(-5, 5, 100)
-        plot.plot(X, 1 / (1 + np.exp(-X * 1)), 'b')
-        plot.plot(X, 1 / (1 + np.exp(-X * 2)), 'r')
-        plot.set_title('Mean square errors')
-        plot.set_xlabel('Epoch number')
-        plot.set_ylabel('Error value')
-        plot.legend(["Train", "Test"], loc=1)
-        plot.grid()
-        chart_type = FigureCanvasTkAgg(figure, self.f_bot)
-        chart_type.get_tk_widget().pack()
-
-        toolbar = NavigationToolbar2Tk(chart_type, self.root)
-        toolbar.config(background='white')
-        toolbar._message_label.config(background='white')
-        toolbar.update()
-        chart_type.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
+    def run(self, network, data):
+        network.train(data['inputs'], data['outputs'])
+        self.plot.draw(network.mean_square_train_error)
 
 
     def get_codes(self, event=None):

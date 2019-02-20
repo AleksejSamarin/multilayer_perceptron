@@ -12,7 +12,7 @@ class FileWorker:
                 try:
                     data = np.load(self.path)
                 except:
-                    inputs = np.zeros((4, 3))
+                    inputs = np.zeros((4, 35))
                     inputs_height, inputs_width = inputs.shape
                     outputs = np.diag(np.ones(inputs_height))
                     test = np.zeros(inputs_width)

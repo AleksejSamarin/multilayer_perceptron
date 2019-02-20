@@ -25,14 +25,17 @@ class NeuralNetwork:
             for i in range(self.levels - 1, 0, -1):
                 self.synapses[i - 1] += self.layers[i - 1].T.dot(self.deltas[i - 1]) * self.rate
 
-            self.print_error(j)
+            # self.print_error(j)
+            self.mean_square_train_error.append(np.mean(self.errors[self.levels - 2] ** 2))
         self.print_layer()
 
 
     def prepare(self, inputs):
+        # np.random.seed(1)
+        self.mean_square_train_error = []
+
         self.synapses, self.layers, self.errors, self.deltas = [], [], [], []
         self.layers.append(inputs)  # layer initialization
-        np.random.seed(1)
         for i in range(1, self.levels):  # synaptic link weights initialization
             self.synapses.append(2 * np.random.random((self.structure[i - 1], self.structure[i])) - 1)
             self.layers.append([])
@@ -45,8 +48,8 @@ class NeuralNetwork:
         for i in range(1, self.levels):
             self.layers[i] = self.count_function(np.dot(self.layers[i - 1], self.synapses[i - 1]), 0.1 * i**3)
         self.print_layer()
+        print(f"Compatible picture: {self.layers[self.levels - 1].argmax(axis=0) + 1}")
         # print("Error test: ", np.mean(self.errors[self.levels - 2] ** 2))
-        # print(self.layers[self.levels - 1] >= 0.5)
 
 
     def count_function(self, x, a, derivative=False):
