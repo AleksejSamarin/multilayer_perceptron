@@ -11,5 +11,5 @@ if __name__ == '__main__':
 
     network = NeuralNetwork(800, 0.5, [inputs_count, 6, 19, 4]) # set configuration: 35 / 2025 inputs
     worker = FileWorker('resources/arrays.npz')
-    graphics = Graphics('sources/image_1.png', 'sources/', 45, 4, 388, 13, 22) # set parts data
+    graphics = Graphics('sources/image_1.png', 'sources/', 45, 4, 12, 370, 22) # set parts data
     window = Window(network, worker, graphics)
