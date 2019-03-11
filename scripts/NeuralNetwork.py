@@ -30,11 +30,11 @@ class NeuralNetwork:
                 self.layers[i] = self.count_function(np.dot(self.layers[i - 1], self.synapses[i - 1]), 0.1 * i**3)  # counting neuron weights
 
             self.errors[-1] = outputs - self.layers[-1]  # first error count
-            self.deltas[-1] = self.errors[-1] * self.count_function(self.layers[-1], None, True)  # check direction of the target value
+            self.deltas[-1] = self.errors[-1] * self.count_function(self.layers[-1], 0.1 * (self.levels - 1)**3, True)  # check direction of the target value
 
             for i in range(self.levels - 2, 0, -1):
                 self.errors[i - 1] = self.deltas[i].dot(self.synapses[i].T)
-                self.deltas[i - 1] = self.errors[i - 1] * self.count_function(self.layers[i], None, True)
+                self.deltas[i - 1] = self.errors[i - 1] * self.count_function(self.layers[i], 0.1 * i**3, True)
 
             for i in range(self.levels - 1, 0, -1):
                 self.synapses[i - 1] += self.layers[i - 1].T.dot(self.deltas[i - 1]) * self.rate
@@ -76,13 +76,13 @@ class NeuralNetwork:
 
     def count_function(self, x, a, derivative=False):
         if (derivative == True):
-            return x * (1 - x)
+            return self.count_function(x, a) * (1 - self.count_function(x, a)) # return x * (1 - x)
         return 1 / (1 + np.exp(-x * a))
 
 
     def print_error(self, epoch):
         if (epoch % (self.epochs / 5)) == 0:
-            print("Error: ", np.mean(self.errors[self.levels - 2]**2))  # mean square error
+            print("Error: ", np.mean(self.errors[self.levels - 2]**3))  # mean square error
 
 
     def print_layer(self):
